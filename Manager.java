@@ -7,5 +7,8 @@ public class Manager {
 
         System.out.println("List of Competitors:");
         CompetitorList.printCompetitors(competitors);
+
+        Test testInstance = new Test();
+        testInstance.testDetails();
     }
 }

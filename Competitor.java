@@ -88,6 +88,43 @@ public class Competitor {
         this.scores = scores;
     }
 
+    public String generateFullDetails() {
+        double averageScore = calculateAverageScore();
+        String categoryAbbreviation = getCategoryAbbreviation();
+        return String.format("Competitor number %03d, name %s %s %s.\n%s is a %s and received these scores: %s\n" +
+                "This gives them an overall score of %.1f.",
+                competitorNumber, firstName, middleInitial(), lastName, firstName, getCategory(),
+                Arrays.toString(scores), averageScore);
+    }
+
+    // New method to generate short details
+    public String generateShortDetails() {
+        double averageScore = calculateAverageScore();
+        String categoryAbbreviation = getCategoryAbbreviation();
+        return String.format("CN %03d (%s%s) has an overall score of %.1f.",
+                competitorNumber, categoryAbbreviation, getInitials(), averageScore);
+    }
+
+    private String middleInitial() {
+        return (firstName.length() > 1) ? String.valueOf(firstName.charAt(1)) + "." : "";
+    }
+
+    private String getInitials() {
+        return String.valueOf(firstName.charAt(0)) + String.valueOf(lastName.charAt(0));
+    }
+
+    private String getCategoryAbbreviation() {
+        return getCategory().substring(0, 2).toUpperCase();
+    }
+
+    public double calculateAverageScore() {
+        int sum = 0;
+        for (int score : scores) {
+            sum += score;
+        }
+        return (double) sum / scores.length;
+    }
+
     @Override
     public String toString() {
         return String.format("Competitor %03d: %s %s, Email: %s, DOB: %s, Category: %s, Level: %s, Scores: %s",
