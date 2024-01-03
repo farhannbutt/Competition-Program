@@ -2,12 +2,17 @@ import java.util.ArrayList;
 
 public class Manager {
     public static void main(String[] args) {
-        String filePath = "CompetitorList.csv";
-        ArrayList<Competitor> competitors = CompetitorList.readCompetitorsFromCSV(filePath);
+        generateReport();
+    }
 
-        System.out.println("List of Competitors:");
-        CompetitorList.printCompetitors(competitors);
+    public static void generateReport() {
+        String file = "CompetitorList.csv";
 
+        CompetitorList competitorList = new CompetitorList(file);
+        competitorList.saveReportToFile("ResultReport.txt");
+    }
+
+    public static void runTests() {
         Test testInstance = new Test();
         testInstance.testDetails();
     }

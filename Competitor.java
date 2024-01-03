@@ -2,19 +2,17 @@ import java.util.Arrays;
 
 public class Competitor {
     private int competitorNumber;
-    private String firstName;
-    private String lastName;
+    private Name name;
     private String email;
     private String dateOfBirth;
     private String category;
     private String level;
     private int[] scores;
 
-    public Competitor(int competitorNumber, String firstName, String lastName, String email,
+    public Competitor(int competitorNumber, Name name, String email,
             String dateOfBirth, String category, String level, int[] scores) {
         this.competitorNumber = competitorNumber;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.name = name;
         this.email = email;
         this.dateOfBirth = dateOfBirth;
         this.category = category;
@@ -27,12 +25,8 @@ public class Competitor {
         return competitorNumber;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
+    public Name getName() {
+        return this.name;
     }
 
     public String getEmail() {
@@ -60,12 +54,8 @@ public class Competitor {
         this.competitorNumber = competitorNumber;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setName(Name name) {
+        this.name = name;
     }
 
     public void setEmail(String email) {
@@ -93,7 +83,8 @@ public class Competitor {
         String categoryAbbreviation = getCategoryAbbreviation();
         return String.format("Competitor number %03d, name %s %s %s.\n%s is a %s and received these scores: %s\n" +
                 "This gives them an overall score of %.1f.",
-                competitorNumber, firstName, middleInitial(), lastName, firstName, getCategory(),
+                competitorNumber, getName().getFirstName(), middleInitial(), getName().getLastName(),
+                getName().getFirstName(), getLevel(),
                 Arrays.toString(scores), averageScore);
     }
 
@@ -106,11 +97,11 @@ public class Competitor {
     }
 
     private String middleInitial() {
-        return (firstName.length() > 1) ? String.valueOf(firstName.charAt(1)) + "." : "";
+        return (getName().getFirstName().length() > 1) ? String.valueOf(getName().getFirstName().charAt(1)) + "." : "";
     }
 
     private String getInitials() {
-        return String.valueOf(firstName.charAt(0)) + String.valueOf(lastName.charAt(0));
+        return String.valueOf(getName().getFirstName().charAt(0)) + String.valueOf(getName().getLastName().charAt(0));
     }
 
     private String getCategoryAbbreviation() {
@@ -185,6 +176,7 @@ public class Competitor {
     @Override
     public String toString() {
         return String.format("Competitor %03d: %s %s, Email: %s, DOB: %s, Category: %s, Level: %s, Scores: %s",
-                competitorNumber, firstName, lastName, email, dateOfBirth, category, level, Arrays.toString(scores));
+                competitorNumber, getName().getFirstName(), getName().getLastName(), email, dateOfBirth, category,
+                level, Arrays.toString(scores));
     }
 }

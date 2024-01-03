@@ -11,7 +11,8 @@ public class Test {
         String level = "Intermediate";
         int[] scores = { 5, 4, 5, 4, 3 };
 
-        return new Competitor(competitorNumber, firstName, lastName, email, dateOfBirth, category, level, scores);
+        return new Competitor(competitorNumber, new Name(firstName, lastName), email, dateOfBirth, category, level,
+                scores);
     }
 
     public void testDetails() {

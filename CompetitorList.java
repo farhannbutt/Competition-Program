@@ -1,16 +1,19 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
 public class CompetitorList {
     private ArrayList<Competitor> competitors;
 
-    public CompetitorList(ArrayList<Competitor> competitors) {
-        this.competitors = competitors;
+    public CompetitorList(String file) {
+        this.competitors = readCompetitorsFromCSV(file);
     }
 
     public static ArrayList<Competitor> readCompetitorsFromCSV(String filePath) {
@@ -36,8 +39,8 @@ public class CompetitorList {
                         Integer.parseInt(data[11].trim())
                 };
 
-                Competitor competitor = new Competitor(competitorNumber, firstName, lastName, email,
-                        dateOfBirth, category, level, scores);
+                Competitor competitor = new Competitor(competitorNumber,
+                        new Name(firstName, lastName), email, dateOfBirth, category, level, scores);
 
                 competitors.add(competitor);
             }
@@ -48,36 +51,89 @@ public class CompetitorList {
         return competitors;
     }
 
-    public static void printCompetitors(ArrayList<Competitor> competitors) {
-        printHeading();
-        // Print each competitor's information
-        for (Competitor competitor : competitors) {
-            System.out.printf("%-15d %-15s %-15s %-25s %-12s %-20s %-10s %-15s%n",
-                    competitor.getCompetitorNumber(), competitor.getFirstName(),
-                    competitor.getLastName(), competitor.getEmail(), competitor.getDateOfBirth(),
-                    competitor.getCategory(), competitor.getLevel(), Arrays.toString(competitor.getScores()));
+    public String generateFinalReport() {
+        StringBuilder report = new StringBuilder();
+
+        // Add table of competitors with full details
+        report.append(generateCompetitorsTable());
+
+        // Add details of the competitor with the highest overall score
+        report.append(generateHighestOverallScoreDetails());
+
+        // Add summary statistics
+        report.append(generateSummaryStatistics());
+
+        return report.toString();
+    }
+
+    public void saveReportToFile(String filePath) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            writer.write(generateFinalReport());
+            System.out.println("Final report has been saved to " + filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    public static void printHeading() {
-        // Print table header
-        System.out.printf("%-15s %-15s %-15s %-25s %-12s %-20s %-10s %-15s%n",
-                "Competitor #", "First Name", "Last Name", "Email", "DOB", "Category", "Level", "Scores");
+    private String generateCompetitorsTable() {
+        StringBuilder table = new StringBuilder();
+
+        table.append("Competitors Table:\n");
+        table.append(
+                "-------------------------------------------------------------------------------------------------------------------------\n");
+        table.append(String.format("%-15s %-15s %-15s %-25s %-12s %-20s %-15s%n",
+                "Competitor #", "First Name", "Last Name", "Email", "DOB", "Category", "Scores"));
+        table.append(
+                "-------------------------------------------------------------------------------------------------------------------------\n");
+
+        for (Competitor competitor : competitors) {
+            table.append(String.format("%-15d %-15s %-15s %-25s %-12s %-20s %-15s%n",
+                    competitor.getCompetitorNumber(), competitor.getName().getFirstName(),
+                    competitor.getName().getLastName(), competitor.getEmail(), competitor.getDateOfBirth(),
+                    competitor.getCategory(), Arrays.toString(competitor.getScores())));
+        }
+
+        table.append("\n");
+        return table.toString();
     }
 
-    public void printAdditionalInfo() {
-        System.out.println("\nAdditional Information:");
-
-        printTotals();
-        printAverages();
-        printMaxMin();
-        printFrequencyReport();
+    private String generateHighestOverallScoreDetails() {
+        Competitor highestScorer = getCompetitorWithHighestOverallScore();
+        return "Details of the Competitor with the Highest Overall Score:\n" +
+                highestScorer.generateFullDetails() + "\n\n";
     }
 
-    private void printTotals() {
-        System.out.println("Total Scores:");
+    private Competitor getCompetitorWithHighestOverallScore() {
+        return competitors.stream()
+                .max(Comparator.comparingDouble(Competitor::calculateWeightedAverage))
+                .orElse(null);
+    }
 
+    private String generateSummaryStatistics() {
+        StringBuilder statistics = new StringBuilder();
+
+        statistics.append("Summary Statistics:\n");
+        statistics.append(generateTotals());
+        statistics.append(generateAverages());
+        statistics.append(generateMaxMin());
+        statistics.append(generateFrequencyReport());
+
+        return statistics.toString();
+    }
+
+    private String generateTotals() {
+        StringBuilder totals = new StringBuilder();
+        totals.append("Total Scores:\n");
+
+        int[] totalScores = calculateTotalScores();
+        totals.append(Arrays.toString(totalScores)).append("\n\n");
+
+        return totals.toString();
+    }
+
+    private int[] calculateTotalScores() {
         int[] totalScores = new int[5];
+
         for (Competitor competitor : competitors) {
             int[] scores = competitor.getScores();
             for (int i = 0; i < scores.length; i++) {
@@ -85,31 +141,37 @@ public class CompetitorList {
             }
         }
 
-        System.out.println(Arrays.toString(totalScores));
+        return totalScores;
     }
 
-    private void printAverages() {
-        System.out.println("\nAverage Scores:");
+    private String generateAverages() {
+        StringBuilder averages = new StringBuilder();
+        averages.append("Average Scores:\n");
 
-        int[] totalScores = new int[5];
+        int[] totalScores = calculateTotalScores();
         int totalCompetitors = competitors.size();
-
-        for (Competitor competitor : competitors) {
-            int[] scores = competitor.getScores();
-            for (int i = 0; i < scores.length; i++) {
-                totalScores[i] += scores[i];
-            }
-        }
 
         for (int i = 0; i < totalScores.length; i++) {
             double average = (double) totalScores[i] / totalCompetitors;
-            System.out.printf("Score %d: %.2f%n", i + 1, average);
+            averages.append(String.format("Score %d: %.2f%n", i + 1, average));
         }
+
+        averages.append("\n");
+        return averages.toString();
     }
 
-    private void printMaxMin() {
-        System.out.println("\nMax and Min Scores:");
+    private String generateMaxMin() {
+        StringBuilder maxMin = new StringBuilder();
+        maxMin.append("Max and Min Scores:\n");
 
+        int[] maxMinScores = calculateMaxMinScores();
+        maxMin.append("Max Score: ").append(maxMinScores[0]).append("\n");
+        maxMin.append("Min Score: ").append(maxMinScores[1]).append("\n\n");
+
+        return maxMin.toString();
+    }
+
+    private int[] calculateMaxMinScores() {
         int maxScore = Integer.MIN_VALUE;
         int minScore = Integer.MAX_VALUE;
 
@@ -121,24 +183,35 @@ public class CompetitorList {
             }
         }
 
-        System.out.println("Max Score: " + maxScore);
-        System.out.println("Min Score: " + minScore);
+        return new int[] { maxScore, minScore };
     }
 
-    private void printFrequencyReport() {
-        System.out.println("\nFrequency Report:");
+    private String generateFrequencyReport() {
+        StringBuilder frequencyReport = new StringBuilder();
+        frequencyReport.append("Frequency Report:\n");
 
-        Map<Integer, Integer> frequencyMap = new HashMap<>();
+        Map<Integer, Integer> scoreFrequency = calculateScoreFrequency();
+
+        for (Map.Entry<Integer, Integer> entry : scoreFrequency.entrySet()) {
+            frequencyReport.append("Score ").append(entry.getKey()).append(" awarded ").append(entry.getValue())
+                    .append(" times\n");
+        }
+
+        frequencyReport.append("\n");
+        return frequencyReport.toString();
+    }
+
+    private Map<Integer, Integer> calculateScoreFrequency() {
+        Map<Integer, Integer> scoreFrequency = new HashMap<>();
 
         for (Competitor competitor : competitors) {
             int[] scores = competitor.getScores();
             for (int score : scores) {
-                frequencyMap.put(score, frequencyMap.getOrDefault(score, 0) + 1);
+                scoreFrequency.put(score, scoreFrequency.getOrDefault(score, 0) + 1);
             }
         }
 
-        for (Map.Entry<Integer, Integer> entry : frequencyMap.entrySet()) {
-            System.out.printf("Score %d was awarded %d times.%n", entry.getKey(), entry.getValue());
-        }
+        return scoreFrequency;
     }
+
 }

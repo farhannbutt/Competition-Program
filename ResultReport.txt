@@ -1,0 +1,47 @@
+Competitors Table:
+-------------------------------------------------------------------------------------------------------------------------
+Competitor #    First Name      Last Name       Email                     DOB          Category             Scores         
+-------------------------------------------------------------------------------------------------------------------------
+1               Juan            Gomez           juan.gomez@email.com      1990-05-15   Men's Singles        [4, 3, 5, 2, 4]
+2               Maria           Rodriguez       maria.rodriguez@email.com 1985-12-08   Women's Singles      [3, 5, 4, 2, 1]
+3               Carlos          Fernandez       carlos.fernandez@email.com 1988-07-21   Men's Doubles        [5, 4, 3, 1, 2]
+4               Ana             Silva           ana.silva@email.com       1995-03-03   Women's Doubles      [2, 3, 4, 5, 1]
+5               Luis            Hernandez       luis.hernandez@email.com  1992-09-10   Mixed Doubles        [4, 2, 3, 5, 1]
+6               Elena           Rivera          elena.rivera@email.com    1993-06-18   Women's Singles      [2, 4, 5, 3, 1]
+7               Felipe          Mendoza         felipe.mendoza@email.com  1991-11-27   Men's Singles        [3, 5, 2, 4, 1]
+8               Sofia           Gonzalez        sofia.gonzalez@email.com  1989-04-14   Women's Doubles      [5, 4, 2, 3, 1]
+9               Pablo           Moreno          pablo.moreno@email.com    1994-08-07   Men's Doubles        [4, 3, 5, 2, 1]
+10              Lucia           Torres          lucia.torres@email.com    1987-02-22   Mixed Doubles        [2, 5, 4, 3, 1]
+11              Diego           Santos          diego.santos@email.com    1996-01-09   Men's Singles        [4, 2, 5, 3, 1]
+12              Isabella        Ortega          isabella.ortega@email.com 1990-07-14   Women's Singles      [3, 5, 4, 1, 2]
+13              Javier          Ramirez         javier.ramirez@email.com  1986-12-03   Men's Doubles        [5, 2, 4, 3, 1]
+14              Camila          Martinez        camila.martinez@email.com 1998-05-20   Women's Doubles      [4, 5, 3, 2, 1]
+15              Andres          Lopez           andres.lopez@email.com    1992-09-28   Mixed Doubles        [3, 4, 2, 5, 1]
+
+Details of the Competitor with the Highest Overall Score:
+Competitor number 015, name Andres n. Lopez.
+Andres is a Intermediate and received these scores: [3, 4, 2, 5, 1]
+This gives them an overall score of 3.4.
+
+Summary Statistics:
+Total Scores:
+[53, 56, 55, 44, 20]
+
+Average Scores:
+Score 1: 3.53
+Score 2: 3.73
+Score 3: 3.67
+Score 4: 2.93
+Score 5: 1.33
+
+Max and Min Scores:
+Max Score: 5
+Min Score: 1
+
+Frequency Report:
+Score 1 awarded 14 times
+Score 2 awarded 15 times
+Score 3 awarded 15 times
+Score 4 awarded 16 times
+Score 5 awarded 15 times
+
