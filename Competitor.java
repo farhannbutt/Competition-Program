@@ -89,7 +89,7 @@ public class Competitor {
     }
 
     public String generateFullDetails() {
-        double averageScore = calculateAverageScore();
+        double averageScore = calculateWeightedAverage();
         String categoryAbbreviation = getCategoryAbbreviation();
         return String.format("Competitor number %03d, name %s %s %s.\n%s is a %s and received these scores: %s\n" +
                 "This gives them an overall score of %.1f.",
@@ -99,7 +99,7 @@ public class Competitor {
 
     // New method to generate short details
     public String generateShortDetails() {
-        double averageScore = calculateAverageScore();
+        double averageScore = calculateWeightedAverage();
         String categoryAbbreviation = getCategoryAbbreviation();
         return String.format("CN %03d (%s%s) has an overall score of %.1f.",
                 competitorNumber, categoryAbbreviation, getInitials(), averageScore);
@@ -117,12 +117,69 @@ public class Competitor {
         return getCategory().substring(0, 2).toUpperCase();
     }
 
-    public double calculateAverageScore() {
+    // Updated method to calculate weighted average
+    public double calculateWeightedAverage() {
         int sum = 0;
-        for (int score : scores) {
-            sum += score;
+        int totalWeight = 0;
+
+        for (int i = 0; i < scores.length; i++) {
+            int weight = getWeightForScore(i);
+            sum += scores[i] * weight;
+            totalWeight += weight;
         }
-        return (double) sum / scores.length;
+
+        if (totalWeight == 0) {
+            return 0.0; // Avoid division by zero
+        }
+
+        return (double) sum / totalWeight;
+    }
+
+    // New method to get weight for each score based on the level
+    private int getWeightForScore(int index) {
+        // Assign different weights based on the level (customize as needed)
+        switch (level.toLowerCase()) {
+            case "novice":
+                return getNoviceWeight(index);
+            case "intermediate":
+                return getIntermediateWeight(index);
+            case "advanced":
+                return getAdvancedWeight(index);
+            default:
+                return 1; // Default weight if level is unknown
+        }
+    }
+
+    // Customized weights for Novice level
+    private int getNoviceWeight(int index) {
+        switch (index) {
+            case 0:
+            case 4:
+                return 2;
+            default:
+                return 1;
+        }
+    }
+
+    // Customized weights for Intermediate level
+    private int getIntermediateWeight(int index) {
+        switch (index) {
+            case 1:
+            case 3:
+                return 2;
+            default:
+                return 1;
+        }
+    }
+
+    // Customized weights for Advanced level
+    private int getAdvancedWeight(int index) {
+        switch (index) {
+            case 2:
+                return 3;
+            default:
+                return 1;
+        }
     }
 
     @Override
