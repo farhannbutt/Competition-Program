@@ -214,4 +214,61 @@ public class CompetitorList {
         return scoreFrequency;
     }
 
+    public void addCompetitorToCSV(Competitor newCompetitor, String filePath) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath, true))) {
+            // Append the new competitor to the CSV file
+            bw.write(newCompetitor.toCSVString());
+            bw.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Add the new competitor to the ArrayList
+        competitors.add(newCompetitor);
+    }
+
+    public void removeCompetitorByID(int competitorID, String filePath) {
+        competitors.removeIf(competitor -> competitor.getCompetitorNumber() == competitorID);
+        updateCSVFile(filePath);
+    }
+
+    public void amendCompetitorByID(int competitorID, Competitor newCompetitor, String filePath) {
+        // Remove the old competitor
+        removeCompetitorByID(competitorID, filePath);
+
+        // Add the new competitor
+        addCompetitorToCSV(newCompetitor, filePath);
+    }
+
+    public Competitor searchCompetitorByNumber(int competitorNumber) {
+        for (Competitor competitor : competitors) {
+            if (competitor.getCompetitorNumber() == competitorNumber) {
+                return competitor;
+            }
+        }
+        return null; // Competitor not found
+    }
+
+    public void recordCompetitorScores(int competitorID, int[] newScores, String filePath) {
+        Competitor competitor = searchCompetitorByNumber(competitorID);
+        if (competitor != null) {
+            competitor.setScores(newScores);
+            updateCSVFile(filePath);
+        }
+    }
+
+    private void updateCSVFile(String filePath) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+            // Rewrite the entire CSV file with the updated competitor data
+            bw.write("competitor_number,first_name,last_name,email,date_of_birth,category,level,scores");
+            bw.newLine();
+            for (Competitor competitor : competitors) {
+                bw.write(competitor.toCSVString());
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

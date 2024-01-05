@@ -179,4 +179,10 @@ public class Competitor {
                 competitorNumber, getName().getFirstName(), getName().getLastName(), email, dateOfBirth, category,
                 level, Arrays.toString(scores));
     }
+
+    public String toCSVString() {
+        return String.format("%d,%s,%s,%s,%s,%s,%s,%d,%d,%d,%d,%d",
+                competitorNumber, name.getFirstName(), name.getLastName(),
+                email, dateOfBirth, category, level, scores[0], scores[1], scores[2], scores[3], scores[4]);
+    }
 }

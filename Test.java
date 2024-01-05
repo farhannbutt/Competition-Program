@@ -1,5 +1,7 @@
-public class Test {
+import java.util.Arrays;
+import java.util.ArrayList;
 
+public class Test {
     private Competitor createSampleCompetitor() {
         // You can customize these values to create different sample competitors
         int competitorNumber = 100;
