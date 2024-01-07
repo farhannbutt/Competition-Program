@@ -1,3 +1,5 @@
+import javax.swing.JOptionPane;
+
 public class Official {
     private int ID;
     private Name name;
@@ -35,10 +37,22 @@ public class Official {
         this.accessLevel = accessLevel;
     }
 
-    // Method to register competitor on arrival using CompetitorList methods
     public void registerCompetitorOnArrival(Competitor competitor, CompetitorList competitorList) {
-        competitorList.addCompetitorToCSV(competitor);
-        System.out.println("Competitor registered on arrival.");
+        // Check if the competitor with the same email and category already exists
+        Competitor existingCompetitor = competitorList.searchCompetitorByEmailAndCategory(competitor.getEmail(),
+                competitor.getCategory());
+
+        if (existingCompetitor != null) {
+            // Competitor with the same email and category already exists
+            // You can handle this situation based on your requirements
+            JOptionPane.showMessageDialog(null,
+                    "Competitor with the same email and category already exists. Registration not allowed.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            // Register the competitor
+            competitorList.addCompetitorToCSV(competitor);
+            System.out.println("Competitor registered on arrival.");
+        }
     }
 
     // Method to remove competitor using CompetitorList methods

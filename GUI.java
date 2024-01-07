@@ -2,12 +2,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 public class GUI extends JFrame {
     private CompetitorList competitorList;
     private JButton viewDetailsButton;
     private JButton amendDetailsButton;
     private JButton removeCompetitorButton;
+    private JButton registerCompetitorButton;
 
     public GUI(CompetitorList competitorList) {
         initializeComponents();
@@ -20,6 +22,7 @@ public class GUI extends JFrame {
         viewDetailsButton = new JButton("View Competitor Details");
         amendDetailsButton = new JButton("Amend Competitor Details");
         removeCompetitorButton = new JButton("Remove Competitor");
+        registerCompetitorButton = new JButton("Register Competitor");
     }
 
     private void setupLayout() {
@@ -27,6 +30,7 @@ public class GUI extends JFrame {
         add(viewDetailsButton);
         add(amendDetailsButton);
         add(removeCompetitorButton);
+        add(registerCompetitorButton);
     }
 
     private void setupListeners() {
@@ -48,6 +52,13 @@ public class GUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showRemoveDialog();
+            }
+        });
+
+        registerCompetitorButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showRegisterCompetitorDialog();
             }
         });
     }
@@ -161,6 +172,75 @@ public class GUI extends JFrame {
 
             JOptionPane.showMessageDialog(this, "Competitor removed successfully.", "Success",
                     JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    private void showRegisterCompetitorDialog() {
+        // Assume you have text fields for each detail in the GUI
+        JTextField numberField = new JTextField();
+        JTextField firstNameField = new JTextField();
+        JTextField lastNameField = new JTextField();
+        JTextField emailField = new JTextField();
+        JTextField dateOfBirthField = new JTextField();
+        JTextField categoryField = new JTextField();
+        JTextField levelField = new JTextField();
+        JTextField scoresField = new JTextField();
+
+        Object[] message = {
+                "Competitor Number:", numberField,
+                "First Name:", firstNameField,
+                "Last Name:", lastNameField,
+                "Email:", emailField,
+                "Date of Birth:", dateOfBirthField,
+                "Category:", categoryField,
+                "Level:", levelField,
+                "Scores (comma-separated):", scoresField,
+        };
+
+        int option = JOptionPane.showConfirmDialog(this, message, "Register Competitor", JOptionPane.OK_CANCEL_OPTION);
+        if (option == JOptionPane.OK_OPTION) {
+            // Collect the values from the text fields
+            int competitorNumber = Integer.parseInt(numberField.getText());
+            String firstName = firstNameField.getText();
+            String lastName = lastNameField.getText();
+            String email = emailField.getText();
+            String dateOfBirth = dateOfBirthField.getText();
+            String category = categoryField.getText();
+            String level = levelField.getText();
+            String scoresString = scoresField.getText();
+
+            // Validate input
+            if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty()
+                    || dateOfBirth.isEmpty()
+                    || category.isEmpty() || level.isEmpty() || scoresString.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "All fields must be filled.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Convert scores from string to int array
+            int[] scores = Arrays.stream(scoresString.split(","))
+                    .map(String::trim)
+                    .mapToInt(Integer::parseInt)
+                    .toArray();
+
+            // Create a new Competitor object
+            Competitor newCompetitor = new Competitor(competitorNumber, new Name(firstName, lastName), email,
+                    dateOfBirth, category,
+                    level, scores);
+
+            // Check if a competitor with the same email and category already exists
+            Competitor existingCompetitor = competitorList.searchCompetitorByEmailAndCategory(email, category);
+            if (existingCompetitor != null) {
+                // Competitor with the same email and category already exists
+                JOptionPane.showMessageDialog(this, "Competitor with the same email and category already exists.",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                // Proceed with registration
+                Official official = new Official(1, null, null);
+                official.registerCompetitorOnArrival(newCompetitor, competitorList);
+                JOptionPane.showMessageDialog(this, "Competitor registered successfully.", "Success",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
         }
     }
 

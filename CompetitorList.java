@@ -216,6 +216,15 @@ public class CompetitorList {
         return scoreFrequency;
     }
 
+    public Competitor searchCompetitorByEmailAndCategory(String email, String category) {
+        for (Competitor competitor : competitors) {
+            if (competitor.getEmail().equalsIgnoreCase(email) && competitor.getCategory().equalsIgnoreCase(category)) {
+                return competitor;
+            }
+        }
+        return null;
+    }
+
     public void addCompetitorToCSV(Competitor newCompetitor) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath, true))) {
             // Append the new competitor to the CSV file
