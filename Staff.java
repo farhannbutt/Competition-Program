@@ -37,7 +37,7 @@ public class Staff {
 
     // Method to record scores using CompetitorList methods
     public void recordScores(int competitorNumber, int[] scores, CompetitorList competitorList) {
-        competitorList.recordCompetitorScores(competitorNumber, scores, "competitors.csv");
+        competitorList.recordCompetitorScores(competitorNumber, scores);
         System.out.println("Scores recorded successfully.");
     }
 

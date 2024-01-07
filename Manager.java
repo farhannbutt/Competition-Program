@@ -2,7 +2,8 @@ import java.util.ArrayList;
 
 public class Manager {
     public static void main(String[] args) {
-        generateReport();
+        // generateReport();
+        launchGUI();
     }
 
     public static void generateReport() {
@@ -15,5 +16,12 @@ public class Manager {
     public static void runTests() {
         Test testInstance = new Test();
         testInstance.testDetails();
+    }
+
+    public static void launchGUI() {
+        CompetitorList competitorList = new CompetitorList("CompetitorList.csv");
+
+        GUI gui = new GUI(competitorList);
+        gui.launchGUI();
     }
 }

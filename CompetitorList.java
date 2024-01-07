@@ -11,9 +11,11 @@ import java.util.Map;
 
 public class CompetitorList {
     private ArrayList<Competitor> competitors;
+    private String filePath;
 
     public CompetitorList(String file) {
         this.competitors = readCompetitorsFromCSV(file);
+        this.filePath = file;
     }
 
     public static ArrayList<Competitor> readCompetitorsFromCSV(String filePath) {
@@ -214,7 +216,7 @@ public class CompetitorList {
         return scoreFrequency;
     }
 
-    public void addCompetitorToCSV(Competitor newCompetitor, String filePath) {
+    public void addCompetitorToCSV(Competitor newCompetitor) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath, true))) {
             // Append the new competitor to the CSV file
             bw.write(newCompetitor.toCSVString());
@@ -227,17 +229,17 @@ public class CompetitorList {
         competitors.add(newCompetitor);
     }
 
-    public void removeCompetitorByID(int competitorID, String filePath) {
+    public void removeCompetitorByID(int competitorID) {
         competitors.removeIf(competitor -> competitor.getCompetitorNumber() == competitorID);
-        updateCSVFile(filePath);
+        updateCSVFile();
     }
 
-    public void amendCompetitorByID(int competitorID, Competitor newCompetitor, String filePath) {
+    public void amendCompetitorByID(int competitorID, Competitor newCompetitor) {
         // Remove the old competitor
-        removeCompetitorByID(competitorID, filePath);
+        removeCompetitorByID(competitorID);
 
         // Add the new competitor
-        addCompetitorToCSV(newCompetitor, filePath);
+        addCompetitorToCSV(newCompetitor);
     }
 
     public Competitor searchCompetitorByNumber(int competitorNumber) {
@@ -249,15 +251,15 @@ public class CompetitorList {
         return null; // Competitor not found
     }
 
-    public void recordCompetitorScores(int competitorID, int[] newScores, String filePath) {
+    public void recordCompetitorScores(int competitorID, int[] newScores) {
         Competitor competitor = searchCompetitorByNumber(competitorID);
         if (competitor != null) {
             competitor.setScores(newScores);
-            updateCSVFile(filePath);
+            updateCSVFile();
         }
     }
 
-    private void updateCSVFile(String filePath) {
+    private void updateCSVFile() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             // Rewrite the entire CSV file with the updated competitor data
             bw.write("competitor_number,first_name,last_name,email,date_of_birth,category,level,scores");

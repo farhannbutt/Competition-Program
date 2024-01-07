@@ -59,7 +59,7 @@ public class Competition {
 
     // Method to register competitor using CompetitorList methods
     public void registerCompetitor(Competitor competitor, CompetitorList competitorList) {
-        competitorList.addCompetitorToCSV(competitor, "competitors.csv");
+        competitorList.addCompetitorToCSV(competitor);
         competitorsList.add(competitor);
         System.out.println("Competitor registered for the competition.");
     }

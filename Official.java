@@ -37,20 +37,20 @@ public class Official {
 
     // Method to register competitor on arrival using CompetitorList methods
     public void registerCompetitorOnArrival(Competitor competitor, CompetitorList competitorList) {
-        competitorList.addCompetitorToCSV(competitor, "competitors.csv");
+        competitorList.addCompetitorToCSV(competitor);
         System.out.println("Competitor registered on arrival.");
     }
 
     // Method to remove competitor using CompetitorList methods
     public void removeCompetitor(int competitorNumber, CompetitorList competitorList) {
-        competitorList.removeCompetitorByID(competitorNumber, "competitors.csv");
+        competitorList.removeCompetitorByID(competitorNumber);
         System.out.println("Competitor removed successfully.");
     }
 
     // Method to amend competitor details using CompetitorList methods
     public void amendCompetitorDetails(int competitorNumber, Competitor updatedCompetitor,
             CompetitorList competitorList) {
-        competitorList.amendCompetitorByID(competitorNumber, updatedCompetitor, "competitors.csv");
+        competitorList.amendCompetitorByID(competitorNumber, updatedCompetitor);
         System.out.println("Competitor details amended successfully.");
     }
 }
