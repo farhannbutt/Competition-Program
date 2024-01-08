@@ -1,4 +1,3 @@
-import javax.management.relation.Role;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -22,6 +21,10 @@ public class GUI extends JFrame {
         setupLayout();
         setupListeners();
         this.competitorList = competitorList;
+    }
+
+    public CompetitorList getCompetitorList() {
+        return this.competitorList;
     }
 
     private void initializeComponents() {
@@ -136,19 +139,19 @@ public class GUI extends JFrame {
         // Determine which panel to show based on the selected role
         switch (role) {
             case "Officials":
-                OfficialsPanel officialsPanel = new OfficialsPanel();
+                OfficialsPanel officialsPanel = new OfficialsPanel(this);
                 showCustomDialog("Officials Panel", officialsPanel);
                 break;
             case "Staff":
-                StaffPanel staffPanel = new StaffPanel();
+                StaffPanel staffPanel = new StaffPanel(this);
                 showCustomDialog("Staff Panel", staffPanel);
                 break;
             case "Audience":
-                AudiencePanel audiencePanel = new AudiencePanel();
+                AudiencePanel audiencePanel = new AudiencePanel(this);
                 showCustomDialog("Audience Panel", audiencePanel);
                 break;
             case "Competitors":
-                CompetitorsPanel competitorsPanel = new CompetitorsPanel();
+                CompetitorsPanel competitorsPanel = new CompetitorsPanel(this);
                 showCustomDialog("Competitors Panel", competitorsPanel);
                 break;
             default:
@@ -166,7 +169,7 @@ public class GUI extends JFrame {
         dialog.setVisible(true);
     }
 
-    private void showRecordScoresDialog() {
+    public void showRecordScoresDialog() {
         JTextField competitorNumberField = new JTextField();
         JTextField scoresField = new JTextField();
 
@@ -194,7 +197,7 @@ public class GUI extends JFrame {
         }
     }
 
-    private void showAllCompetitorsDialog() {
+    public void showAllCompetitorsDialog() {
         String table = competitorList.generateCompetitorsTable();
 
         JTextArea textArea = new JTextArea(table);
@@ -206,7 +209,7 @@ public class GUI extends JFrame {
         JOptionPane.showMessageDialog(this, scrollPane, "All Competitors", JOptionPane.PLAIN_MESSAGE);
     }
 
-    private void showResultsDialog() {
+    public void showResultsDialog() {
         String report = competitorList.generateFinalReport();
 
         JTextArea textArea = new JTextArea(report);
@@ -218,7 +221,7 @@ public class GUI extends JFrame {
         JOptionPane.showMessageDialog(this, scrollPane, "Final Results Report", JOptionPane.PLAIN_MESSAGE);
     }
 
-    private void showDetailsDialog() {
+    public void showDetailsDialog() {
         String competitorID = JOptionPane.showInputDialog("Enter Competitor ID:");
         if (competitorID != null && !competitorID.isEmpty()) {
             int id = Integer.parseInt(competitorID);
@@ -231,7 +234,7 @@ public class GUI extends JFrame {
         }
     }
 
-    private void showDetailsOptionsDialog(Competitor competitor) {
+    public void showDetailsOptionsDialog(Competitor competitor) {
         Object[] options = { "Short Details", "Full Details" };
         int choice = JOptionPane.showOptionDialog(this,
                 "Choose details type:",
@@ -249,7 +252,7 @@ public class GUI extends JFrame {
         }
     }
 
-    private void showAmendDialog() {
+    public void showAmendDialog() {
         String competitorID = JOptionPane.showInputDialog("Enter Competitor ID:");
         if (competitorID != null && !competitorID.isEmpty()) {
             // Assume you have a method in Officials to get competitor details by ID
@@ -262,7 +265,7 @@ public class GUI extends JFrame {
         }
     }
 
-    private void showDetails(String details) {
+    public void showDetails(String details) {
         JTextArea textArea = new JTextArea(details);
         JScrollPane scrollPane = new JScrollPane(textArea);
         textArea.setLineWrap(true);
@@ -271,7 +274,7 @@ public class GUI extends JFrame {
         JOptionPane.showMessageDialog(this, scrollPane, "Competitor Details", JOptionPane.PLAIN_MESSAGE);
     }
 
-    private void showAmendDetailsDialog(Competitor competitor) {
+    public void showAmendDetailsDialog(Competitor competitor) {
         // Assume you have text fields for each detail in the GUI
         JTextField firstNameField = new JTextField(competitor.getName().getFirstName());
         JTextField lastNameField = new JTextField(competitor.getName().getLastName());
@@ -317,7 +320,7 @@ public class GUI extends JFrame {
         }
     }
 
-    private void showRemoveDialog() {
+    public void showRemoveDialog() {
         String competitorID = JOptionPane.showInputDialog("Enter Competitor ID:");
         if (competitorID != null && !competitorID.isEmpty()) {
             int id = Integer.parseInt(competitorID);
@@ -330,7 +333,7 @@ public class GUI extends JFrame {
         }
     }
 
-    private void showRegisterCompetitorDialog() {
+    public void showRegisterCompetitorDialog() {
         // Assume you have text fields for each detail in the GUI
         JTextField numberField = new JTextField();
         JTextField firstNameField = new JTextField();
