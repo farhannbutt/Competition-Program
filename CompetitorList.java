@@ -77,7 +77,7 @@ public class CompetitorList {
         }
     }
 
-    private String generateCompetitorsTable() {
+    public String generateCompetitorsTable() {
         StringBuilder table = new StringBuilder();
 
         table.append("Competitors Table:\n");
@@ -97,6 +97,18 @@ public class CompetitorList {
 
         table.append("\n");
         return table.toString();
+    }
+
+    public void sortCompetitorsByName() {
+        competitors.sort(Comparator.comparing(c -> c.getName().getFirstName()));
+    }
+
+    public void sortCompetitorsByScores() {
+        competitors.sort(Comparator.comparingDouble(c -> calculateWeightedAverage(c.getScores())));
+    }
+
+    private double calculateWeightedAverage(int[] scores) {
+        return Arrays.stream(scores).average().orElse(0.0);
     }
 
     private String generateHighestOverallScoreDetails() {

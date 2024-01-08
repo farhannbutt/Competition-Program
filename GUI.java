@@ -10,6 +10,10 @@ public class GUI extends JFrame {
     private JButton amendDetailsButton;
     private JButton removeCompetitorButton;
     private JButton registerCompetitorButton;
+    private JButton viewResultsButton;
+    private JButton viewAllButton;
+    private JButton sortByFirstNameButton;
+    private JButton sortByScoresButton;
 
     public GUI(CompetitorList competitorList) {
         initializeComponents();
@@ -23,6 +27,10 @@ public class GUI extends JFrame {
         amendDetailsButton = new JButton("Amend Competitor Details");
         removeCompetitorButton = new JButton("Remove Competitor");
         registerCompetitorButton = new JButton("Register Competitor");
+        viewResultsButton = new JButton("View Results");
+        viewAllButton = new JButton("View All Competitors");
+        sortByFirstNameButton = new JButton("Sort Competitors By First Name");
+        sortByScoresButton = new JButton("Sort Competitors By Scores");
     }
 
     private void setupLayout() {
@@ -31,6 +39,10 @@ public class GUI extends JFrame {
         add(amendDetailsButton);
         add(removeCompetitorButton);
         add(registerCompetitorButton);
+        add(viewResultsButton);
+        add(viewAllButton);
+        add(sortByFirstNameButton);
+        add(sortByScoresButton);
     }
 
     private void setupListeners() {
@@ -61,6 +73,58 @@ public class GUI extends JFrame {
                 showRegisterCompetitorDialog();
             }
         });
+        viewResultsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showResultsDialog();
+            }
+        });
+        viewAllButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAllCompetitorsDialog();
+            }
+        });
+
+        sortByFirstNameButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                competitorList.sortCompetitorsByName();
+                showAllCompetitorsDialog();
+            }
+        });
+
+        sortByScoresButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                competitorList.sortCompetitorsByScores();
+                showAllCompetitorsDialog();
+            }
+        });
+    }
+
+    private void showAllCompetitorsDialog() {
+        String table = competitorList.generateCompetitorsTable();
+
+        JTextArea textArea = new JTextArea(table);
+        textArea.setEditable(false);
+
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setPreferredSize(new Dimension(600, 400));
+
+        JOptionPane.showMessageDialog(this, scrollPane, "All Competitors", JOptionPane.PLAIN_MESSAGE);
+    }
+
+    private void showResultsDialog() {
+        String report = competitorList.generateFinalReport();
+
+        JTextArea textArea = new JTextArea(report);
+        textArea.setEditable(false);
+
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setPreferredSize(new Dimension(600, 400));
+
+        JOptionPane.showMessageDialog(this, scrollPane, "Final Results Report", JOptionPane.PLAIN_MESSAGE);
     }
 
     private void showDetailsDialog() {
