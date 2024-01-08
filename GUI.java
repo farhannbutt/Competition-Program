@@ -185,8 +185,7 @@ public class GUI extends JFrame {
                 String[] scoresStr = scoresField.getText().split(",");
                 int[] scores = Arrays.stream(scoresStr).mapToInt(Integer::parseInt).toArray();
 
-                Staff staff = new Staff(1, null, null);
-                staff.recordScores(competitorNumber, scores, competitorList);
+                competitorList.recordCompetitorScores(competitorNumber, scores);
 
                 JOptionPane.showMessageDialog(this, "Scores recorded successfully.", "Success",
                         JOptionPane.INFORMATION_MESSAGE);
@@ -255,7 +254,6 @@ public class GUI extends JFrame {
     public void showAmendDialog() {
         String competitorID = JOptionPane.showInputDialog("Enter Competitor ID:");
         if (competitorID != null && !competitorID.isEmpty()) {
-            // Assume you have a method in Officials to get competitor details by ID
             Competitor details = competitorList.searchCompetitorByNumber(Integer.parseInt(competitorID));
             if (details != null) {
                 showAmendDetailsDialog(details);
@@ -275,14 +273,12 @@ public class GUI extends JFrame {
     }
 
     public void showAmendDetailsDialog(Competitor competitor) {
-        // Assume you have text fields for each detail in the GUI
         JTextField firstNameField = new JTextField(competitor.getName().getFirstName());
         JTextField lastNameField = new JTextField(competitor.getName().getLastName());
         JTextField emailField = new JTextField(competitor.getEmail());
         JTextField dateOfBirthField = new JTextField(competitor.getDateOfBirth());
         JTextField categoryField = new JTextField(competitor.getCategory());
         JTextField levelField = new JTextField(competitor.getLevel());
-        // Add more fields for other details...
 
         Object[] message = {
                 "First Name:", firstNameField,
@@ -291,7 +287,6 @@ public class GUI extends JFrame {
                 "Date of Birth:", dateOfBirthField,
                 "Category:", categoryField,
                 "Level:", levelField,
-                // Add more fields...
         };
 
         int option = JOptionPane.showConfirmDialog(this, message, "Amend Competitor Details",
@@ -304,16 +299,13 @@ public class GUI extends JFrame {
             String dateOfBirth = dateOfBirthField.getText();
             String category = categoryField.getText();
             String level = levelField.getText();
-            // Get other details...
 
             // Create a new Competitor object
             Competitor newDetails = new Competitor(competitor.getCompetitorNumber(), new Name(firstName, lastName),
                     email,
                     dateOfBirth, category, level, competitor.getScores());
 
-            // Assume you have a method in Officials to amend competitor details
-            Official official = new Official(1, null, null);
-            official.amendCompetitorDetails(competitor.getCompetitorNumber(), newDetails, competitorList);
+            competitorList.amendCompetitorByID(competitor.getCompetitorNumber(), newDetails);
 
             JOptionPane.showMessageDialog(this, "Competitor details amended successfully.", "Success",
                     JOptionPane.INFORMATION_MESSAGE);
@@ -324,9 +316,7 @@ public class GUI extends JFrame {
         String competitorID = JOptionPane.showInputDialog("Enter Competitor ID:");
         if (competitorID != null && !competitorID.isEmpty()) {
             int id = Integer.parseInt(competitorID);
-            // Assume you have a method in Officials to remove a competitor
-            Official official = new Official(1, null, null);
-            official.removeCompetitor(id, competitorList);
+            competitorList.removeCompetitorByID(id);
 
             JOptionPane.showMessageDialog(this, "Competitor removed successfully.", "Success",
                     JOptionPane.INFORMATION_MESSAGE);
@@ -334,7 +324,6 @@ public class GUI extends JFrame {
     }
 
     public void showRegisterCompetitorDialog() {
-        // Assume you have text fields for each detail in the GUI
         JTextField numberField = new JTextField();
         JTextField firstNameField = new JTextField();
         JTextField lastNameField = new JTextField();
@@ -394,8 +383,7 @@ public class GUI extends JFrame {
                         "Error", JOptionPane.ERROR_MESSAGE);
             } else {
                 // Proceed with registration
-                Official official = new Official(1, null, null);
-                official.registerCompetitorOnArrival(newCompetitor, competitorList);
+                competitorList.addCompetitorToCSV(newCompetitor);
                 JOptionPane.showMessageDialog(this, "Competitor registered successfully.", "Success",
                         JOptionPane.INFORMATION_MESSAGE);
             }

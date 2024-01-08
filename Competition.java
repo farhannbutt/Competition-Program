@@ -15,8 +15,6 @@ public class Competition {
         this.competitorsList = new ArrayList<>();
     }
 
-    // Getter and Setter methods
-
     public int getID() {
         return ID;
     }

@@ -12,6 +12,7 @@ public class OfficialsPanel extends JPanel {
     private JButton viewAllButton;
     private JButton sortByFirstNameButton;
     private JButton sortByScoresButton;
+    private JButton generateReportButton;
     private GUI gui;
 
     public OfficialsPanel(GUI gui) {
@@ -25,6 +26,7 @@ public class OfficialsPanel extends JPanel {
         viewAllButton = new JButton("View All Competitors");
         sortByFirstNameButton = new JButton("Sort Competitors By First Name");
         sortByScoresButton = new JButton("Sort Competitors By Scores");
+        generateReportButton = new JButton("Generate Report");
 
         setLayout(new FlowLayout());
         add(viewDetailsButton);
@@ -35,6 +37,7 @@ public class OfficialsPanel extends JPanel {
         add(viewAllButton);
         add(sortByFirstNameButton);
         add(sortByScoresButton);
+        add(generateReportButton);
 
         viewDetailsButton.addActionListener(new ActionListener() {
             @Override
@@ -89,6 +92,13 @@ public class OfficialsPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 gui.getCompetitorList().sortCompetitorsByScores();
                 gui.showAllCompetitorsDialog();
+            }
+        });
+
+        generateReportButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gui.showResultsDialog();
             }
         });
     }

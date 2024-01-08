@@ -26,6 +26,13 @@ public class CompetitorList {
             br.readLine(); // skip header
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
+
+                // Validate the row before processing
+                if (!validateCompetitorData(data)) {
+                    System.out.println("Skipping invalid data: " + line);
+                    continue;
+                }
+
                 int competitorNumber = Integer.parseInt(data[0]);
                 String firstName = data[1];
                 String lastName = data[2];
@@ -51,6 +58,27 @@ public class CompetitorList {
         }
 
         return competitors;
+    }
+
+    private static boolean validateCompetitorData(String[] data) {
+        // Check if the row has exactly 12 values
+        if (data.length != 12) {
+            System.out.println("Invalid row: Expected 12 values, found " + data.length);
+            return false;
+        }
+
+        // Check if the email address is valid
+        if (!isValidEmail(data[3])) {
+            System.out.println("Invalid email address in row: " + data[3]);
+            return false;
+        }
+
+        return true;
+    }
+
+    private static boolean isValidEmail(String email) {
+        // Basic email validation - check if it contains "@" and "."
+        return email.contains("@") && email.contains(".");
     }
 
     public String generateFinalReport() {
