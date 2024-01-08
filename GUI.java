@@ -14,6 +14,7 @@ public class GUI extends JFrame {
     private JButton viewAllButton;
     private JButton sortByFirstNameButton;
     private JButton sortByScoresButton;
+    private JButton recordScoresButton;
 
     public GUI(CompetitorList competitorList) {
         initializeComponents();
@@ -31,6 +32,7 @@ public class GUI extends JFrame {
         viewAllButton = new JButton("View All Competitors");
         sortByFirstNameButton = new JButton("Sort Competitors By First Name");
         sortByScoresButton = new JButton("Sort Competitors By Scores");
+        recordScoresButton = new JButton("Record Competitor Scores");
     }
 
     private void setupLayout() {
@@ -43,6 +45,7 @@ public class GUI extends JFrame {
         add(viewAllButton);
         add(sortByFirstNameButton);
         add(sortByScoresButton);
+        add(recordScoresButton);
     }
 
     private void setupListeners() {
@@ -101,6 +104,41 @@ public class GUI extends JFrame {
                 showAllCompetitorsDialog();
             }
         });
+        recordScoresButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showRecordScoresDialog();
+            }
+        });
+
+    }
+
+    private void showRecordScoresDialog() {
+        JTextField competitorNumberField = new JTextField();
+        JTextField scoresField = new JTextField();
+
+        Object[] message = {
+                "Competitor Number:", competitorNumberField,
+                "Scores (comma-separated):", scoresField
+        };
+
+        int option = JOptionPane.showConfirmDialog(this, message, "Record Scores", JOptionPane.OK_CANCEL_OPTION);
+        if (option == JOptionPane.OK_OPTION) {
+            try {
+                int competitorNumber = Integer.parseInt(competitorNumberField.getText());
+                String[] scoresStr = scoresField.getText().split(",");
+                int[] scores = Arrays.stream(scoresStr).mapToInt(Integer::parseInt).toArray();
+
+                Staff staff = new Staff(1, null, null);
+                staff.recordScores(competitorNumber, scores, competitorList);
+
+                JOptionPane.showMessageDialog(this, "Scores recorded successfully.", "Success",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Invalid input. Please enter valid numbers.", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
     private void showAllCompetitorsDialog() {
