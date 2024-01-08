@@ -1,3 +1,4 @@
+import javax.management.relation.Role;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -110,7 +111,59 @@ public class GUI extends JFrame {
                 showRecordScoresDialog();
             }
         });
+    }
 
+    private void showRoleSelectionDialog() {
+        // Create a dialog to select a role
+        String[] roles = { "Officials", "Staff", "Audience", "Competitors" };
+
+        String selectedRole = (String) JOptionPane.showInputDialog(
+                this,
+                "Select a Role:",
+                "Role Selection",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                roles,
+                roles[0]);
+
+        // Handle the selected role
+        if (selectedRole != null) {
+            showPanel(selectedRole);
+        }
+    }
+
+    private void showPanel(String role) {
+        // Determine which panel to show based on the selected role
+        switch (role) {
+            case "Officials":
+                OfficialsPanel officialsPanel = new OfficialsPanel();
+                showCustomDialog("Officials Panel", officialsPanel);
+                break;
+            case "Staff":
+                StaffPanel staffPanel = new StaffPanel();
+                showCustomDialog("Staff Panel", staffPanel);
+                break;
+            case "Audience":
+                AudiencePanel audiencePanel = new AudiencePanel();
+                showCustomDialog("Audience Panel", audiencePanel);
+                break;
+            case "Competitors":
+                CompetitorsPanel competitorsPanel = new CompetitorsPanel();
+                showCustomDialog("Competitors Panel", competitorsPanel);
+                break;
+            default:
+                // Handle unknown roles
+                break;
+        }
+    }
+
+    private void showCustomDialog(String title, JPanel panel) {
+        JDialog dialog = new JDialog(this, title, true);
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.getContentPane().add(panel);
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
     }
 
     private void showRecordScoresDialog() {
@@ -347,10 +400,6 @@ public class GUI extends JFrame {
     }
 
     public void launchGUI() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("Competitor Details Viewer");
-        pack();
-        setLocationRelativeTo(null);
-        setVisible(true);
+        showRoleSelectionDialog();
     }
 }
