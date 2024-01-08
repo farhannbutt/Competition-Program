@@ -10,6 +10,7 @@ public class StaffPanel extends JPanel {
     private JButton sortByFirstNameButton;
     private JButton sortByScoresButton;
     private JButton recordScoresButton;
+    private JButton viewSummaryResultsButton;
     private GUI gui;
 
     public StaffPanel(GUI gui) {
@@ -17,6 +18,7 @@ public class StaffPanel extends JPanel {
 
         viewDetailsButton = new JButton("View Competitor Details");
         viewResultsButton = new JButton("View Results");
+        viewSummaryResultsButton = new JButton("View Result Summary");
         viewAllButton = new JButton("View All Competitors");
         sortByFirstNameButton = new JButton("Sort Competitors By First Name");
         sortByScoresButton = new JButton("Sort Competitors By Scores");
@@ -41,6 +43,12 @@ public class StaffPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gui.showResultsDialog();
+            }
+        });
+        viewSummaryResultsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gui.showSummaryResultsDialog();
             }
         });
         viewAllButton.addActionListener(new ActionListener() {

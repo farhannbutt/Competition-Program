@@ -84,7 +84,7 @@ public class Competitor {
         return String.format("Competitor number %03d, name %s %s %s.\n%s is a %s and received these scores: %s\n" +
                 "This gives them an overall score of %.1f.",
                 competitorNumber, getName().getFirstName(), middleInitial(), getName().getLastName(),
-                getName().getFirstName(), getLevel(),
+                getNameEdited button text on panels().getFirstName(), getLevel(),
                 Arrays.toString(scores), averageScore);
     }
 

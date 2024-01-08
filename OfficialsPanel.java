@@ -13,6 +13,7 @@ public class OfficialsPanel extends JPanel {
     private JButton sortByFirstNameButton;
     private JButton sortByScoresButton;
     private JButton generateReportButton;
+    private JButton viewSummaryResultsButton;
     private GUI gui;
 
     public OfficialsPanel(GUI gui) {
@@ -23,6 +24,7 @@ public class OfficialsPanel extends JPanel {
         removeCompetitorButton = new JButton("Remove Competitor");
         registerCompetitorButton = new JButton("Register Competitor");
         viewResultsButton = new JButton("View Results");
+        viewSummaryResultsButton = new JButton("View Result Summary");
         viewAllButton = new JButton("View All Competitors");
         sortByFirstNameButton = new JButton("Sort Competitors By First Name");
         sortByScoresButton = new JButton("Sort Competitors By Scores");
@@ -38,6 +40,7 @@ public class OfficialsPanel extends JPanel {
         add(sortByFirstNameButton);
         add(sortByScoresButton);
         add(generateReportButton);
+        add(viewSummaryResultsButton);
 
         viewDetailsButton.addActionListener(new ActionListener() {
             @Override
@@ -70,6 +73,12 @@ public class OfficialsPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gui.showResultsDialog();
+            }
+        });
+        viewSummaryResultsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gui.showSummaryResultsDialog();
             }
         });
         viewAllButton.addActionListener(new ActionListener() {

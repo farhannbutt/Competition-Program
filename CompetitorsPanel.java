@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 
 public class CompetitorsPanel extends JPanel {
     private JButton viewResultsButton;
+    private JButton viewSummaryResultsButton;
     private JButton viewAllButton;
     private JButton sortByFirstNameButton;
     private JButton sortByScoresButton;
@@ -16,6 +17,7 @@ public class CompetitorsPanel extends JPanel {
         this.gui = gui;
 
         viewResultsButton = new JButton("View Results");
+        viewSummaryResultsButton = new JButton("View Result Summary");
         viewDetailsButton = new JButton("View Competitor Details");
         registerCompetitorButton = new JButton("Register for Competition");
         viewAllButton = new JButton("View All Competitors");
@@ -24,6 +26,7 @@ public class CompetitorsPanel extends JPanel {
 
         setLayout(new FlowLayout());
         add(viewResultsButton);
+        add(viewSummaryResultsButton);
         add(viewDetailsButton);
         add(registerCompetitorButton);
         add(viewAllButton);
@@ -34,6 +37,12 @@ public class CompetitorsPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gui.showResultsDialog();
+            }
+        });
+        viewSummaryResultsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gui.showSummaryResultsDialog();
             }
         });
         viewDetailsButton.addActionListener(new ActionListener() {

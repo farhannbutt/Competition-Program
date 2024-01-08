@@ -96,6 +96,18 @@ public class CompetitorList {
         return report.toString();
     }
 
+    public String generateSummaryReport() {
+        StringBuilder report = new StringBuilder();
+
+        // Add details of the competitor with the highest overall score
+        report.append(generateHighestOverallScoreDetails());
+
+        // Add summary statistics
+        report.append(generateSummaryStatistics());
+
+        return report.toString();
+    }
+
     public void saveReportToFile(String filePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             writer.write(generateFinalReport());

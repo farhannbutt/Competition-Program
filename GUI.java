@@ -220,6 +220,18 @@ public class GUI extends JFrame {
         JOptionPane.showMessageDialog(this, scrollPane, "Final Results Report", JOptionPane.PLAIN_MESSAGE);
     }
 
+    public void showSummaryResultsDialog() {
+        String report = competitorList.generateFinalReport();
+
+        JTextArea textArea = new JTextArea(report);
+        textArea.setEditable(false);
+
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setPreferredSize(new Dimension(600, 400));
+
+        JOptionPane.showMessageDialog(this, scrollPane, "Summary Results Report", JOptionPane.PLAIN_MESSAGE);
+    }
+
     public void showDetailsDialog() {
         String competitorID = JOptionPane.showInputDialog("Enter Competitor ID:");
         if (competitorID != null && !competitorID.isEmpty()) {
