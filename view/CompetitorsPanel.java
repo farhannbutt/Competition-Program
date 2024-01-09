@@ -1,74 +1,41 @@
+package view;
+
 import javax.swing.*;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.FlowLayout;
 
-public class OfficialsPanel extends JPanel {
-    private JButton viewDetailsButton;
-    private JButton amendDetailsButton;
-    private JButton removeCompetitorButton;
-    private JButton registerCompetitorButton;
+public class CompetitorsPanel extends JPanel {
     private JButton viewResultsButton;
+    private JButton viewSummaryResultsButton;
     private JButton viewAllButton;
     private JButton sortByFirstNameButton;
     private JButton sortByScoresButton;
-    private JButton generateReportButton;
-    private JButton viewSummaryResultsButton;
+    private JButton viewDetailsButton;
+    private JButton registerCompetitorButton;
     private GUI gui;
 
-    public OfficialsPanel(GUI gui) {
+    public CompetitorsPanel(GUI gui) {
         this.gui = gui;
 
-        viewDetailsButton = new JButton("View Competitor Details");
-        amendDetailsButton = new JButton("Amend Competitor Details");
-        removeCompetitorButton = new JButton("Remove Competitor");
-        registerCompetitorButton = new JButton("Register Competitor");
         viewResultsButton = new JButton("View Results");
         viewSummaryResultsButton = new JButton("View Result Summary");
+        viewDetailsButton = new JButton("View Competitor Details");
+        registerCompetitorButton = new JButton("Register for Competition");
         viewAllButton = new JButton("View All Competitors");
         sortByFirstNameButton = new JButton("Sort Competitors By First Name");
-        sortByScoresButton = new JButton("Sort Competitors By Scores");
-        generateReportButton = new JButton("Generate Report");
+        sortByScoresButton = new JButton("Sort Competitors By Average Scores");
 
         setLayout(new FlowLayout());
-        add(viewDetailsButton);
-        add(amendDetailsButton);
-        add(removeCompetitorButton);
-        add(registerCompetitorButton);
         add(viewResultsButton);
+        add(viewSummaryResultsButton);
+        add(viewDetailsButton);
+        add(registerCompetitorButton);
         add(viewAllButton);
         add(sortByFirstNameButton);
         add(sortByScoresButton);
-        add(generateReportButton);
-        add(viewSummaryResultsButton);
 
-        viewDetailsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                gui.showDetailsDialog();
-            }
-        });
-
-        amendDetailsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                gui.showAmendDialog();
-            }
-        });
-
-        removeCompetitorButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                gui.showRemoveDialog();
-            }
-        });
-
-        registerCompetitorButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                gui.showRegisterCompetitorDialog();
-            }
-        });
         viewResultsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -79,6 +46,24 @@ public class OfficialsPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gui.showSummaryResultsDialog();
+            }
+        });
+        viewDetailsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gui.showDetailsDialog();
+            }
+        });
+        registerCompetitorButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gui.showRegisterCompetitorDialog();
+            }
+        });
+        viewResultsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gui.showResultsDialog();
             }
         });
         viewAllButton.addActionListener(new ActionListener() {
@@ -101,13 +86,6 @@ public class OfficialsPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 gui.getCompetitorList().sortCompetitorsByScores();
                 gui.showAllCompetitorsDialog();
-            }
-        });
-
-        generateReportButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                gui.showResultsDialog();
             }
         });
     }

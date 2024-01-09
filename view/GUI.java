@@ -1,4 +1,11 @@
+package view;
+
 import javax.swing.*;
+
+import controller.CompetitorList;
+import model.Competitor;
+import model.Name;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

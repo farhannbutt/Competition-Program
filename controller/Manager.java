@@ -1,3 +1,6 @@
+package controller;
+
+import view.GUI;
 import java.util.ArrayList;
 
 public class Manager {
@@ -11,11 +14,6 @@ public class Manager {
 
         CompetitorList competitorList = new CompetitorList(file);
         competitorList.saveReportToFile("ResultReport.txt");
-    }
-
-    public static void runTests() {
-        Test testInstance = new Test();
-        testInstance.testDetails();
     }
 
     public static void launchGUI() {

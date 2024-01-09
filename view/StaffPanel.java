@@ -1,37 +1,46 @@
+package view;
+
 import javax.swing.*;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.FlowLayout;
 
-public class CompetitorsPanel extends JPanel {
+public class StaffPanel extends JPanel {
+    private JButton viewDetailsButton;
     private JButton viewResultsButton;
-    private JButton viewSummaryResultsButton;
     private JButton viewAllButton;
     private JButton sortByFirstNameButton;
     private JButton sortByScoresButton;
-    private JButton viewDetailsButton;
-    private JButton registerCompetitorButton;
+    private JButton recordScoresButton;
+    private JButton viewSummaryResultsButton;
     private GUI gui;
 
-    public CompetitorsPanel(GUI gui) {
+    public StaffPanel(GUI gui) {
         this.gui = gui;
 
+        viewDetailsButton = new JButton("View Competitor Details");
         viewResultsButton = new JButton("View Results");
         viewSummaryResultsButton = new JButton("View Result Summary");
-        viewDetailsButton = new JButton("View Competitor Details");
-        registerCompetitorButton = new JButton("Register for Competition");
         viewAllButton = new JButton("View All Competitors");
         sortByFirstNameButton = new JButton("Sort Competitors By First Name");
         sortByScoresButton = new JButton("Sort Competitors By Scores");
+        recordScoresButton = new JButton("Record Competitor Scores");
 
         setLayout(new FlowLayout());
-        add(viewResultsButton);
-        add(viewSummaryResultsButton);
         add(viewDetailsButton);
-        add(registerCompetitorButton);
+        add(viewResultsButton);
         add(viewAllButton);
         add(sortByFirstNameButton);
         add(sortByScoresButton);
+        add(recordScoresButton);
+
+        viewDetailsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gui.showDetailsDialog();
+            }
+        });
 
         viewResultsButton.addActionListener(new ActionListener() {
             @Override
@@ -43,24 +52,6 @@ public class CompetitorsPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gui.showSummaryResultsDialog();
-            }
-        });
-        viewDetailsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                gui.showDetailsDialog();
-            }
-        });
-        registerCompetitorButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                gui.showRegisterCompetitorDialog();
-            }
-        });
-        viewResultsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                gui.showResultsDialog();
             }
         });
         viewAllButton.addActionListener(new ActionListener() {
@@ -83,6 +74,12 @@ public class CompetitorsPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 gui.getCompetitorList().sortCompetitorsByScores();
                 gui.showAllCompetitorsDialog();
+            }
+        });
+        recordScoresButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gui.showRecordScoresDialog();
             }
         });
     }

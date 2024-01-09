@@ -1,4 +1,8 @@
+package model;
+
 import javax.swing.JOptionPane;
+
+import controller.CompetitorList;
 
 public class Official {
     private int ID;
